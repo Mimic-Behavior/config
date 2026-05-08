@@ -31,8 +31,8 @@
         "@clack/prompts": "catalog:",
         "@eslint/config-helpers": "catalog:",
         "@eslint/js": "catalog:",
-        "eslint-plugin-perfectionist": "catalog:",
         "globals": "catalog:",
+        "nypm": "catalog:",
         "typescript-eslint": "catalog:"
     },
     "devDependencies": {
@@ -42,6 +42,7 @@
         "@next/eslint-plugin-next": ">=16.0.0",
         "eslint": ">=9.0.0",
         "eslint-plugin-jsonc": ">=3.0.0",
+        "eslint-plugin-perfectionist": ">=5.0.0",
         "eslint-plugin-react": ">=7.0.0",
         "eslint-plugin-react-hooks": ">=7.0.0",
         "eslint-plugin-vue": ">=10.0.0",
@@ -53,6 +54,9 @@
             "optional": true
         },
         "eslint-plugin-jsonc": {
+            "optional": true
+        },
+        "eslint-plugin-perfectionist": {
             "optional": true
         },
         "eslint-plugin-react": {
