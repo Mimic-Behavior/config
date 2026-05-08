@@ -94,7 +94,7 @@ async function create() {
     if (dependencies.length) {
         s.start(`Installing dependencies...`)
 
-        await addDevDependency(dependencies, { silent: true })
+        await addDevDependency(['@nddeps/eslint-config', ...dependencies].sort(), { silent: true })
 
         s.stop('Installation complete')
     }
