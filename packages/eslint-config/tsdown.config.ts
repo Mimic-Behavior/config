@@ -6,6 +6,7 @@ export default defineConfig([
         outDir: 'dist',
     },
     {
+        banner: '#!/usr/bin/env node',
         entry: './src/cli/index.ts',
         outDir: 'bin',
     },
