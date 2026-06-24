@@ -1,5 +1,5 @@
 {
-    "name": "@nddeps/eslint-plugin-oxfmt",
+    "name": "@mimic-behavior/eslint-plugin-oxfmt",
     "version": "0.0.0",
     "private": true,
     "keywords": [

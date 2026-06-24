@@ -1,5 +1,5 @@
 {
-    "name": "@nddeps/prettier-config",
+    "name": "@mimic-behavior/prettier-config",
     "version": "0.3.1",
     "private": false,
     "keywords": [

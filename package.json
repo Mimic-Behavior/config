@@ -1,5 +1,5 @@
 {
-    "name": "@nddeps/config",
+    "name": "@mimic-behavior/config",
     "version": "0.0.0",
     "private": true,
     "workspaces": [
@@ -28,6 +28,7 @@
         "eslint-plugin-perfectionist": "catalog:",
         "eslint-plugin-react": "catalog:",
         "eslint-plugin-react-hooks": "catalog:",
+        "eslint-plugin-sonarjs": "catalog:",
         "eslint-plugin-vue": "catalog:",
         "eslint-plugin-yml": "catalog:",
         "globals": "catalog:",
@@ -50,5 +51,5 @@
         "vue-eslint-parser": "catalog:",
         "yaml-eslint-parser": "catalog:"
     },
-    "packageManager": "pnpm@11.0.8"
+    "packageManager": "pnpm@11.8.0"
 }

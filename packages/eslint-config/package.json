@@ -1,5 +1,5 @@
 {
-    "name": "@nddeps/eslint-config",
+    "name": "@mimic-behavior/eslint-config",
     "version": "0.6.2",
     "private": false,
     "keywords": [
@@ -48,6 +48,7 @@
         "eslint-plugin-perfectionist": ">=5.0.0",
         "eslint-plugin-react": ">=7.0.0",
         "eslint-plugin-react-hooks": ">=7.0.0",
+        "eslint-plugin-sonarjs": ">=4.0.0",
         "eslint-plugin-vue": ">=10.0.0",
         "eslint-plugin-yml": ">=3.0.0",
         "vue-eslint-parser": ">=10.0.0"

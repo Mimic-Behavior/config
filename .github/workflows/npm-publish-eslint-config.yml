@@ -19,7 +19,7 @@ jobs:
                   node-version: 24
                   registry-url: https://registry.npmjs.org/
             - run: pnpm install
-            - run: pnpm --filter @nddeps/eslint-config build
-            - run: pnpm --filter @nddeps/eslint-config publish --provenance --access public
+            - run: pnpm --filter @mimic-behavior/eslint-config build
+            - run: pnpm --filter @mimic-behavior/eslint-config publish --provenance --access public
               env:
                   NODE_AUTH_TOKEN: ${{secrets.npm_token}}

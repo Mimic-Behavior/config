@@ -19,7 +19,7 @@ jobs:
                   node-version: 24
                   registry-url: https://registry.npmjs.org/
             - run: pnpm install
-            - run: pnpm --filter @nddeps/oxfmt-config build
-            - run: pnpm --filter @nddeps/oxfmt-config publish --provenance --access public
+            - run: pnpm --filter @mimic-behavior/oxfmt-config build
+            - run: pnpm --filter @mimic-behavior/oxfmt-config publish --provenance --access public
               env:
                   NODE_AUTH_TOKEN: ${{secrets.npm_token}}
