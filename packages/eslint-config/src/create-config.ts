@@ -29,6 +29,10 @@ type Options = {
          */
         react?: boolean
         /**
+         * @description Enable SonarJS plugin
+         */
+        sonarjs?: boolean
+        /**
          * @description Enable TypeScript plugin
          */
         typescript?: boolean
@@ -72,10 +76,12 @@ async function createConfig(options: Options = {}) {
         ),
     ]
 
+    // https://www.npmjs.com/package/typescript-eslint
     if (options.plugins?.typescript) {
         baseConfig.push(typescript.configs.recommended)
     }
 
+    // https://www.npmjs.com/package/eslint-plugin-react
     if (options.plugins?.react) {
         const [react, reactHooks] = await Promise.all([
             interopDefault(import('eslint-plugin-react')),
@@ -94,11 +100,13 @@ async function createConfig(options: Options = {}) {
         )
     }
 
+    // https://www.npmjs.com/package/@next/eslint-plugin-next
     if (options.plugins?.next) {
         const plugin = await interopDefault(import('@next/eslint-plugin-next'))
         baseConfig.push(plugin.configs['core-web-vitals'])
     }
 
+    // https://www.npmjs.com/package/eslint-plugin-vue
     if (options.plugins?.vue) {
         const plugin = await interopDefault(import('eslint-plugin-vue'))
         baseConfig.push(...plugin.configs['flat/recommended'], {
@@ -109,6 +117,7 @@ async function createConfig(options: Options = {}) {
         })
     }
 
+    // https://www.npmjs.com/package/vue-eslint-parser
     if (options.plugins?.vue && options.plugins.typescript) {
         const parser = await interopDefault(import('vue-eslint-parser'))
         baseConfig.push({
@@ -122,6 +131,13 @@ async function createConfig(options: Options = {}) {
         })
     }
 
+    // https://www.npmjs.com/package/eslint-plugin-sonarjs
+    if (options.plugins?.sonarjs) {
+        const plugin = await import('eslint-plugin-sonarjs')
+        baseConfig.push(plugin.configs.recommended)
+    }
+
+    // https://www.npmjs.com/package/eslint-plugin-perfectionist
     if (options.plugins?.perfectionist) {
         const plugin = await interopDefault(import('eslint-plugin-perfectionist'))
         baseConfig.push(plugin.configs['recommended-alphabetical'], {
@@ -145,6 +161,7 @@ async function createConfig(options: Options = {}) {
         })
     }
 
+    // https://www.npmjs.com/package/eslint-plugin-jsonc
     if (options.plugins?.json) {
         const plugin = await interopDefault(import('eslint-plugin-jsonc'))
         baseConfig.push(...plugin.configs['recommended-with-jsonc'], {
@@ -184,6 +201,7 @@ async function createConfig(options: Options = {}) {
         })
     }
 
+    // https://www.npmjs.com/package/eslint-plugin-yml
     if (options.plugins?.yaml) {
         const plugin = await interopDefault(import('eslint-plugin-yml'))
         baseConfig.push(

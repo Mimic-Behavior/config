@@ -51,6 +51,13 @@ async function create() {
                     },
                 },
                 {
+                    label: 'SonarJS',
+                    value: {
+                        dependencies: ['eslint-plugin-sonarjs'],
+                        name: 'sonarjs',
+                    },
+                },
+                {
                     label: 'TypeScript',
                     value: {
                         dependencies: ['typescript-eslint'],
@@ -76,7 +83,7 @@ async function create() {
     )
 
     const configTemplate = dedent.withOptions({ alignValues: true })`
-        import { createConfig } from '@nddeps/eslint-config'
+        import { createConfig } from '@mimic-behavior/eslint-config'
 
         export default createConfig({
             plugins: {
@@ -94,7 +101,7 @@ async function create() {
     if (dependencies.length) {
         s.start(`Installing dependencies...`)
 
-        await addDevDependency(['@nddeps/eslint-config', ...dependencies].sort(), { silent: true })
+        await addDevDependency(['@mimic-behavior/eslint-config', ...dependencies].sort(), { silent: true })
 
         s.stop('Installation complete')
     }
