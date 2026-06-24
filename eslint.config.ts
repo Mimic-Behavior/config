@@ -5,6 +5,7 @@ export default createConfig({
         json: true,
         perfectionist: true,
         react: true,
+        sonarjs: true,
         typescript: true,
         vue: true,
         yaml: true,
