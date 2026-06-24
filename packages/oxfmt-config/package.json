@@ -7,12 +7,12 @@
         "oxfmt",
         "oxfmt-config"
     ],
-    "homepage": "https://github.com/No-Deprecated-Dependencies/config/packages/oxfmt-config",
+    "homepage": "https://github.com/mimic-behavior/config/tree/main/packages/oxfmt-config",
     "license": "MIT",
     "author": "Aleksei Saenko",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/No-Deprecated-Dependencies/config.git"
+        "url": "git+https://github.com/mimic-behavior/config.git"
     },
     "files": [
         "./dist"
