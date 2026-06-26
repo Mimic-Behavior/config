@@ -2,6 +2,9 @@ import type { RuleDefinition } from '@eslint/core'
 
 import path from 'path'
 
+const KEBAB_CASE_LEADING_UNDERSCORE_REGEXP = /^_?[a-z0-9]+(?:-[a-z0-9]+)*$/
+const KEBAB_CASE_REGEXP = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
 const kebabFilename: RuleDefinition = {
     create(context) {
         return {
@@ -13,7 +16,13 @@ const kebabFilename: RuleDefinition = {
                     return
                 }
 
-                if (/^_?[a-z0-9]+(?:-[a-z0-9]+)*$/.test(basename)) {
+                if (
+                    basename
+                        .split('.')
+                        .every((part, index) =>
+                            (index ? KEBAB_CASE_REGEXP : KEBAB_CASE_LEADING_UNDERSCORE_REGEXP).test(part),
+                        )
+                ) {
                     return
                 }
 
