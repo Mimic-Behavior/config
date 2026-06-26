@@ -14,6 +14,7 @@
     "devDependencies": {
         "@clack/prompts": "catalog:",
         "@eslint/config-helpers": "catalog:",
+        "@eslint/core": "catalog:",
         "@eslint/js": "catalog:",
         "@next/eslint-plugin-next": "catalog:",
         "@nuxt/eslint-plugin": "catalog:",
