@@ -7,12 +7,12 @@
         "eslint-plugin-oxfmt",
         "plugin"
     ],
-    "homepage": "https://github.com/mimic-behavior/config/tree/main/packages/eslint-plugin-oxfmt",
+    "homepage": "https://github.com/Mimic-Behavior/config/tree/main/packages/eslint-plugin-oxfmt",
     "license": "MIT",
     "author": "Aleksei Saenko",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/mimic-behavior/config.git"
+        "url": "git+https://github.com/Mimic-Behavior/config.git"
     },
     "files": [
         "./dist"

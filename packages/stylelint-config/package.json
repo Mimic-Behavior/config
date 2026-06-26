@@ -7,12 +7,12 @@
         "stylelint",
         "stylelint-config"
     ],
-    "homepage": "https://github.com/mimic-behavior/config/tree/main/packages/stylelint-config",
+    "homepage": "https://github.com/Mimic-Behavior/config/tree/main/packages/stylelint-config",
     "license": "MIT",
     "author": "Aleksei Saenko",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/mimic-behavior/config.git"
+        "url": "git+https://github.com/Mimic-Behavior/config.git"
     },
     "files": [
         "./dist"
