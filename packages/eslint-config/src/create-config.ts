@@ -8,6 +8,8 @@ import js from '@eslint/js'
 import globals from 'globals'
 import typescript from 'typescript-eslint'
 
+import { plugin } from './plugin'
+
 type Options = {
     extends?: ConfigWithExtendsArray
     ignores?: string[]
@@ -53,7 +55,7 @@ async function createConfig(options: Options = {}) {
             files: ['**/*.{cjs,cts,js,jsx,mjs,mts,ts,tsx,vue}'],
         },
         {
-            extends: [js.configs.recommended],
+            extends: [js.configs.recommended, plugin.configs.all],
             languageOptions: {
                 globals: {
                     ...globals.browser,
