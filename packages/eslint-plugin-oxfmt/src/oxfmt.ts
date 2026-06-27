@@ -1,10 +1,10 @@
-import type { ESLint } from 'eslint'
+import type { Plugin, RuleDefinition } from '@eslint/core'
 
 import { rule } from './oxfmt-rule'
 
-const plugin: ESLint.Plugin = {
+const plugin: Plugin = {
     rules: {
-        oxfmt: rule,
+        oxfmt: rule as RuleDefinition,
     },
 }
 

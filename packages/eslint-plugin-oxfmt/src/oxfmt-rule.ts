@@ -1,11 +1,12 @@
-import type { Rule } from 'eslint'
+import type { JSRuleDefinition } from 'eslint'
+import type { FormatOptions } from 'oxfmt'
 
 import { generateDifferences, showInvisibles } from 'prettier-linter-helpers'
 import { createSyncFn, type Syncify } from 'synckit'
 
 let format: Syncify<typeof import('oxfmt').format>
 
-const rule: Rule.RuleModule = {
+const rule: JSRuleDefinition = {
     create(context) {
         return {
             [context.sourceCode.ast.type || 'Program']() {
@@ -16,7 +17,7 @@ const rule: Rule.RuleModule = {
                 const sourceText = context.sourceCode.getText()
 
                 try {
-                    const { code, errors } = format(context.filename, sourceText, context.options[0])
+                    const { code, errors } = format(context.filename, sourceText, context.options[0] as FormatOptions)
 
                     if (sourceText === code || !code || !errors.length) {
                         return
