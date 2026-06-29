@@ -101,7 +101,7 @@ async function create() {
     if (dependencies.length) {
         s.start(`Installing dependencies...`)
 
-        await addDevDependency(['@mimic-behavior/eslint-config', ...dependencies].sort(), { silent: true })
+        await addDevDependency(['@mimic-behavior/eslint-config', 'eslint', 'jiti', ...dependencies].sort())
 
         s.stop('Installation complete')
     }
