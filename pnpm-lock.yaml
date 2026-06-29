@@ -287,6 +287,9 @@ importers:
       globals:
         specifier: 'catalog:'
         version: 17.7.0
+      jiti:
+        specifier: '>=2.0.0'
+        version: 2.7.0
       nypm:
         specifier: 'catalog:'
         version: 0.6.7

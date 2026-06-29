@@ -76,6 +76,9 @@
         "eslint-plugin-yml": {
             "optional": true
         },
+        "jiti": {
+            "optional": true
+        },
         "vue-eslint-parser": {
             "optional": true
         }
