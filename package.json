@@ -51,5 +51,6 @@
         "vitest": "catalog:",
         "vue-eslint-parser": "catalog:",
         "yaml-eslint-parser": "catalog:"
-    }
+    },
+    "packageManager": "pnpm@11.9.0"
 }
