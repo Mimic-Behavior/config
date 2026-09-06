@@ -122,9 +122,9 @@ async function create() {
     note(
         dependencies
             .map((dependency) => {
-                const atIndex = dependency.startsWith('@') ? -1 : dependency.lastIndexOf('@')
+                const atIndex = dependency.lastIndexOf('@')
 
-                if (atIndex !== -1) {
+                if (atIndex && atIndex !== -1) {
                     const packageName = dependency.slice(0, atIndex)
                     const packageVersion = dependency.slice(atIndex + 1)
 
