@@ -19,7 +19,7 @@ jobs:
               with:
                   node-version: 24
                   registry-url: https://registry.npmjs.org/
-            - run: pnpm install --ignore-pnpmfile
+            - run: pnpm install
             - run: pnpm -r build
             - run: pnpm -r publish --provenance --access public
               env:

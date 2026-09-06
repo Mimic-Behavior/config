@@ -3,6 +3,10 @@ import path from 'node:path'
 
 export const hooks = {
     async afterAllResolved(lockfile) {
+        if (process.env.CI) {
+            return lockfile
+        }
+
         try {
             const catalogYamlPath = path.join(import.meta.dirname, 'pnpm-workspace.yaml')
             const catalogJsonPath = path.join(import.meta.dirname, 'pnpm-workspace.catalog.json')
