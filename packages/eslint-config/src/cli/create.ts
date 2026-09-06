@@ -1,4 +1,4 @@
-import { cancel, confirm, intro, multiselect, outro, spinner } from '@clack/prompts'
+import { cancel, confirm, intro, log, multiselect, outro, spinner } from '@clack/prompts'
 import dedent from 'dedent'
 import { writeFile } from 'fs/promises'
 import { addDevDependency } from 'nypm'
@@ -48,15 +48,15 @@ async function create() {
                 {
                     label: 'React',
                     value: {
-                        dependencies: ['eslint-plugin-react', 'eslint-plugin-react-hooks'],
+                        dependencies: ['@eslint-react/eslint-plugin'],
                         name: 'react',
                     },
                 },
                 {
-                    label: 'React Modern',
+                    label: 'React Legacy',
                     value: {
-                        dependencies: ['@eslint-react/eslint-plugin'],
-                        name: 'reactModern',
+                        dependencies: ['eslint-plugin-react', 'eslint-plugin-react-hooks'],
+                        name: 'reactLegacy',
                     },
                 },
                 {
@@ -109,33 +109,34 @@ async function create() {
         'eslint',
         'jiti',
         ...plugins.flatMap((plugin) => plugin.dependencies),
-    ] as const
-    const s = spinner()
+    ].map((name) => {
+        if (name === 'eslint') {
+            // Specify eslint version if legacy react plugin enabled
+            if (plugins.some((plugin) => plugin.name === 'reactLegacy')) {
+                return 'eslint@^9'
+            } else {
+                return 'eslint'
+            }
+        } else if (isCatalogPackage(name)) {
+            return `${name}@${workspaceCatalog[name]}`
+        } else {
+            return name
+        }
+    })
+
+    log.info(`Dependencies to installation: ${dependencies.join(', ')}`)
 
     if (dependencies.length) {
-        s.start(`Installing dependencies...`)
+        const s = spinner()
 
-        await addDevDependency(
-            [...dependencies].map((name) => {
-                if (name === 'eslint') {
-                    // Specify eslint version if legacy react plugin enabled
-                    if (plugins.some((plugin) => plugin.name === 'react')) {
-                        return 'eslint@^9'
-                    } else {
-                        return 'eslint'
-                    }
-                } else if (isCatalogPackage(name)) {
-                    return `${name}@${workspaceCatalog[name]}`
-                } else {
-                    return name
-                }
-            }),
-        )
+        s.start('Installing dependencies...')
+
+        await addDevDependency(dependencies)
 
         s.stop('Installation complete')
     }
 
-    outro(`ESLint config created`)
+    outro('ESLint config created')
 }
 
 function isCatalogPackage(name: string): name is keyof typeof workspaceCatalog {

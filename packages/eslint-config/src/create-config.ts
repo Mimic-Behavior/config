@@ -31,14 +31,14 @@ type Options = {
         perfectionist?: boolean
         /**
          * Enable React plugin
-         * @package https://www.npmjs.com/package/eslint-plugin-react
+         * @package https://www.npmjs.com/package/@eslint-react/eslint-plugin
          */
         react?: boolean
         /**
          * Enable React plugin
-         * @package https://www.npmjs.com/package/@eslint-react/eslint-plugin
+         * @package https://www.npmjs.com/package/eslint-plugin-react
          */
-        reactModern?: boolean
+        reactLegacy?: boolean
         /**
          * Enable SonarJS plugin
          * @package https://www.npmjs.com/package/eslint-plugin-sonarjs
@@ -100,7 +100,7 @@ async function createConfig(options: Options = {}) {
     }
 
     // https://www.npmjs.com/package/eslint-plugin-react
-    if (options.plugins?.react) {
+    if (options.plugins?.reactLegacy) {
         const [react, reactHooks] = await Promise.all([
             interopDefault(import('eslint-plugin-react')),
             interopDefault(import('eslint-plugin-react-hooks')),
@@ -119,7 +119,7 @@ async function createConfig(options: Options = {}) {
     }
 
     // https://www.npmjs.com/package/@eslint-react/eslint-plugin
-    if (options.plugins?.reactModern) {
+    if (options.plugins?.react) {
         const react = await interopDefault(import('@eslint-react/eslint-plugin'))
 
         if (options.plugins.react) {
