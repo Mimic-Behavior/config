@@ -42,6 +42,7 @@
         "eslint": "catalog:"
     },
     "peerDependencies": {
+        "@eslint-react/eslint-plugin": ">=5.0.0",
         "@next/eslint-plugin-next": ">=16.0.0",
         "eslint": ">=10.0.0",
         "eslint-plugin-jsonc": ">=3.0.0",
