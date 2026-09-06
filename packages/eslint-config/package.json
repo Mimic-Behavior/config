@@ -1,6 +1,6 @@
 {
     "name": "@mimic-behavior/eslint-config",
-    "version": "0.10.1",
+    "version": "0.10.2",
     "private": false,
     "keywords": [
         "config",
