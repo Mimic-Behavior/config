@@ -56,7 +56,7 @@ async function create() {
                     label: 'React Modern',
                     value: {
                         dependencies: ['@eslint-react/eslint-plugin'],
-                        name: 'react',
+                        name: 'reactModern',
                     },
                 },
                 {
