@@ -3,6 +3,8 @@ import dedent from 'dedent'
 import { writeFile } from 'fs/promises'
 import { addDevDependency } from 'nypm'
 
+import pnpmWorkspace from '~/pnpm-workspace.json'
+
 import { ensure } from './ensure'
 import { exists } from './exists'
 
@@ -46,7 +48,14 @@ async function create() {
                 {
                     label: 'React',
                     value: {
-                        dependencies: ['eslint-plugin-react'],
+                        dependencies: ['eslint-plugin-react', 'eslint-plugin-react-hooks'],
+                        name: 'react',
+                    },
+                },
+                {
+                    label: 'React Modern',
+                    value: {
+                        dependencies: ['@eslint-react/eslint-plugin'],
                         name: 'react',
                     },
                 },
@@ -78,7 +87,7 @@ async function create() {
                         name: 'yaml',
                     },
                 },
-            ],
+            ] as const,
         }),
     )
 
@@ -95,18 +104,42 @@ async function create() {
 
     await writeFile(CONFIG_FILENAME, configTemplate, { encoding: 'utf-8' })
 
-    const dependencies = plugins.flatMap((plugin) => plugin.dependencies)
+    const dependencies = [
+        '@mimic-behavior/eslint-config',
+        'eslint',
+        'jiti',
+        ...plugins.flatMap((plugin) => plugin.dependencies),
+    ] as const
     const s = spinner()
 
     if (dependencies.length) {
         s.start(`Installing dependencies...`)
 
-        await addDevDependency(['@mimic-behavior/eslint-config', 'eslint', 'jiti', ...dependencies].sort())
+        await addDevDependency(
+            [...dependencies].map((name) => {
+                if (name === 'eslint') {
+                    // Specify eslint version if legacy react plugin enabled
+                    if (plugins.some((plugin) => plugin.name === 'react')) {
+                        return 'eslint@^9'
+                    } else {
+                        return 'eslint'
+                    }
+                } else if (isCatalogPackage(name)) {
+                    return `${name}@${pnpmWorkspace.catalog[name]}`
+                } else {
+                    return name
+                }
+            }),
+        )
 
         s.stop('Installation complete')
     }
 
     outro(`ESLint config created`)
+}
+
+function isCatalogPackage(name: string): name is keyof typeof pnpmWorkspace.catalog {
+    return name in pnpmWorkspace.catalog
 }
 
 export { create }

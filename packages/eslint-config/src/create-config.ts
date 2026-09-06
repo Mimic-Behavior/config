@@ -15,35 +15,48 @@ type Options = {
     ignores?: string[]
     plugins?: {
         /**
-         * @description Enable JSON plugin
+         * Enable JSON plugin
+         * @package https://www.npmjs.com/package/eslint-plugin-jsonc
          */
         json?: boolean
         /**
-         * @description Enable Next.js plugin
+         * Enable Next.js plugin
+         * @package https://www.npmjs.com/package/@next/eslint-plugin-next
          */
         next?: boolean
         /**
-         * @description Enable Perfectionist plugin
+         * Enable Perfectionist plugin
+         * @package https://www.npmjs.com/package/eslint-plugin-perfectionist
          */
         perfectionist?: boolean
         /**
-         * @description Enable React plugin
+         * Enable React plugin
+         * @package https://www.npmjs.com/package/eslint-plugin-react
          */
         react?: boolean
         /**
-         * @description Enable SonarJS plugin
+         * Enable React plugin
+         * @package https://www.npmjs.com/package/@eslint-react/eslint-plugin
+         */
+        reactModern?: boolean
+        /**
+         * Enable SonarJS plugin
+         * @package https://www.npmjs.com/package/eslint-plugin-sonarjs
          */
         sonarjs?: boolean
         /**
-         * @description Enable TypeScript plugin
+         * Enable TypeScript plugin
+         * @package https://www.npmjs.com/package/typescript-eslint
          */
         typescript?: boolean
         /**
-         * @description Enable Vue plugin
+         * Enable Vue plugin
+         * @package https://www.npmjs.com/package/eslint-plugin-vue
          */
         vue?: boolean
         /**
-         * @description Enable YAML plugin
+         * Enable YAML plugin
+         * @package https://www.npmjs.com/package/eslint-plugin-yml
          */
         yaml?: boolean
     }
@@ -60,6 +73,9 @@ async function createConfig(options: Options = {}) {
                 globals: {
                     ...globals.browser,
                     ...globals.node,
+                },
+                parserOptions: {
+                    tsconfigRootDir: import.meta.dirname,
                 },
             },
         },
@@ -100,6 +116,21 @@ async function createConfig(options: Options = {}) {
                 },
             },
         )
+    }
+
+    // https://www.npmjs.com/package/@eslint-react/eslint-plugin
+    if (options.plugins?.reactModern) {
+        const react = await interopDefault(import('@eslint-react/eslint-plugin'))
+
+        if (options.plugins.react) {
+            baseConfig.push(
+                react.configs['disable-conflict-eslint-plugin-react'],
+                react.configs['disable-conflict-eslint-plugin-react-hooks'],
+            )
+        }
+
+        const recommended = options.plugins.typescript ? 'recommended-typescript' : 'recommended'
+        baseConfig.push(react.configs[recommended])
     }
 
     // https://www.npmjs.com/package/@next/eslint-plugin-next

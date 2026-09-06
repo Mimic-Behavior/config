@@ -19,6 +19,7 @@ const kebabFilename: RuleDefinition = {
                 if (
                     basename
                         .split('.')
+                        .filter(Boolean)
                         .every((part, index) =>
                             (index ? KEBAB_CASE_REGEXP : KEBAB_CASE_LEADING_UNDERSCORE_REGEXP).test(part),
                         )
