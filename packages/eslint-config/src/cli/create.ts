@@ -1,6 +1,7 @@
-import { cancel, confirm, intro, log, multiselect, outro, spinner } from '@clack/prompts'
+import { cancel, confirm, intro, multiselect, note, outro, spinner } from '@clack/prompts'
 import dedent from 'dedent'
-import { writeFile } from 'fs/promises'
+import fs from 'fs/promises'
+import util from 'node:util'
 import { addDevDependency } from 'nypm'
 
 import workspaceCatalog from '~/pnpm-workspace.catalog.json'
@@ -102,25 +103,39 @@ async function create() {
 
     `
 
-    await writeFile(CONFIG_FILENAME, configTemplate, { encoding: 'utf-8' })
+    await fs.writeFile(CONFIG_FILENAME, configTemplate, { encoding: 'utf-8' })
 
-    const dependencies = [
-        '@mimic-behavior/eslint-config',
-        'eslint',
-        'jiti',
-        ...plugins.flatMap((plugin) => plugin.dependencies),
-    ].map((name) => {
-        // Specify eslint version if legacy react plugin enabled
-        if (name === 'eslint' && plugins.some((plugin) => plugin.name === 'reactLegacy')) {
-            return 'eslint@^9'
-        } else if (isCatalogPackage(name)) {
-            return `${name}@${workspaceCatalog[name]}`
-        } else {
-            return name
-        }
-    })
+    const dependencies = ['@mimic-behavior/eslint-config', 'eslint', 'jiti']
+        .concat(plugins.flatMap((plugin) => plugin.dependencies))
+        .sort()
+        .map((name) => {
+            // Specify eslint version if legacy react plugin enabled
+            if (name === 'eslint' && plugins.some((plugin) => plugin.name === 'reactLegacy')) {
+                return 'eslint@^9'
+            } else if (isCatalogPackage(name)) {
+                return `${name}@${workspaceCatalog[name]}`
+            } else {
+                return name
+            }
+        })
 
-    log.info(`Dependencies to installation: ${dependencies.join(', ')}`)
+    note(
+        dependencies
+            .map((dependency) => {
+                const atIndex = dependency.startsWith('@') ? -1 : dependency.lastIndexOf('@')
+
+                if (atIndex !== -1) {
+                    const packageName = dependency.slice(0, atIndex)
+                    const packageVersion = dependency.slice(atIndex + 1)
+
+                    return [util.styleText('green', '+'), packageName, util.styleText('gray', packageVersion)].join(' ')
+                }
+
+                return [util.styleText('green', '+'), dependency].join(' ')
+            })
+            .join('\n'),
+        'Dependencies to install',
+    )
 
     if (dependencies.length) {
         const s = spinner()
