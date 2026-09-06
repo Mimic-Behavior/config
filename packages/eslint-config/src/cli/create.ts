@@ -3,7 +3,7 @@ import dedent from 'dedent'
 import { writeFile } from 'fs/promises'
 import { addDevDependency } from 'nypm'
 
-import pnpmWorkspace from '~/pnpm-workspace.json'
+import workspaceCatalog from '~/pnpm-workspace.catalog.json'
 
 import { ensure } from './ensure'
 import { exists } from './exists'
@@ -125,7 +125,7 @@ async function create() {
                         return 'eslint'
                     }
                 } else if (isCatalogPackage(name)) {
-                    return `${name}@${pnpmWorkspace.catalog[name]}`
+                    return `${name}@${workspaceCatalog[name]}`
                 } else {
                     return name
                 }
@@ -138,8 +138,8 @@ async function create() {
     outro(`ESLint config created`)
 }
 
-function isCatalogPackage(name: string): name is keyof typeof pnpmWorkspace.catalog {
-    return name in pnpmWorkspace.catalog
+function isCatalogPackage(name: string): name is keyof typeof workspaceCatalog {
+    return name in workspaceCatalog
 }
 
 export { create }

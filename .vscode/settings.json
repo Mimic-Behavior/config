@@ -26,5 +26,9 @@
         "json",
         "jsonc",
         "yaml"
+    ],
+    "stylelint.validate": [
+        "css",
+        "scss"
     ]
 }

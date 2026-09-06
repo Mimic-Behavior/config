@@ -197,6 +197,12 @@ catalogs:
     stylelint-config-recess-order:
       specifier: ^7.8.0
       version: 7.8.0
+    stylelint-config-recommended:
+      specifier: ^18.0.0
+      version: 18.0.0
+    stylelint-config-recommended-scss:
+      specifier: ^17.0.1
+      version: 17.0.1
     stylelint-config-standard:
       specifier: ^40.0.0
       version: 40.0.0
@@ -231,7 +237,7 @@ catalogs:
       specifier: ^2.1.0
       version: 2.1.0
 
-pnpmfileChecksum: sha256-HiKtfdjeXx1+yQbeozfwOuMaxt+Rso3W+2hXuxOtg3A=
+pnpmfileChecksum: sha256-p3mgZMHFG5fyan2IeWjY7yxZXzKfCsAxIINffgvlyzg=
 
 importers:
 
@@ -327,6 +333,12 @@ importers:
       stylelint-config-recess-order:
         specifier: 'catalog:'
         version: 7.8.0(stylelint-order@8.1.1(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3)))(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
+      stylelint-config-recommended:
+        specifier: 'catalog:'
+        version: 18.0.0(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
+      stylelint-config-recommended-scss:
+        specifier: 'catalog:'
+        version: 17.0.1(postcss@8.5.28)(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
       stylelint-config-standard:
         specifier: 'catalog:'
         version: 40.0.0(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
@@ -454,9 +466,12 @@ importers:
       stylelint-config-recess-order:
         specifier: 'catalog:'
         version: 7.8.0(stylelint-order@8.1.1(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3)))(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
-      stylelint-config-standard-scss:
+      stylelint-config-recommended:
         specifier: 'catalog:'
-        version: 17.0.0(postcss@8.5.28)(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
+        version: 18.0.0(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
+      stylelint-config-recommended-scss:
+        specifier: 'catalog:'
+        version: 17.0.1(postcss@8.5.28)(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
       stylelint-order:
         specifier: 'catalog:'
         version: 8.1.1(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))

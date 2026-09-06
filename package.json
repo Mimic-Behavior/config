@@ -42,6 +42,8 @@
         "prettier-linter-helpers": "catalog:",
         "stylelint": "catalog:",
         "stylelint-config-recess-order": "catalog:",
+        "stylelint-config-recommended": "catalog:",
+        "stylelint-config-recommended-scss": "catalog:",
         "stylelint-config-standard": "catalog:",
         "stylelint-config-standard-scss": "catalog:",
         "stylelint-order": "catalog:",
