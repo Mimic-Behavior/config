@@ -110,13 +110,9 @@ async function create() {
         'jiti',
         ...plugins.flatMap((plugin) => plugin.dependencies),
     ].map((name) => {
-        if (name === 'eslint') {
-            // Specify eslint version if legacy react plugin enabled
-            if (plugins.some((plugin) => plugin.name === 'reactLegacy')) {
-                return 'eslint@^9'
-            } else {
-                return 'eslint'
-            }
+        // Specify eslint version if legacy react plugin enabled
+        if (name === 'eslint' && plugins.some((plugin) => plugin.name === 'reactLegacy')) {
+            return 'eslint@^9'
         } else if (isCatalogPackage(name)) {
             return `${name}@${workspaceCatalog[name]}`
         } else {
