@@ -40,6 +40,13 @@ async function create() {
                     },
                 },
                 {
+                    label: 'Oxlint',
+                    value: {
+                        dependencies: ['eslint-plugin-oxlint', 'oxlint'],
+                        name: 'oxlint',
+                    },
+                },
+                {
                     label: 'Perfectionist',
                     value: {
                         dependencies: ['eslint-plugin-perfectionist'],
@@ -105,17 +112,14 @@ async function create() {
 
     await fs.writeFile(CONFIG_FILENAME, configTemplate, { encoding: 'utf-8' })
 
-    const dependencies = ['@mimic-behavior/eslint-config', 'eslint', 'jiti']
+    const dependencies = ['@mimic-behavior/eslint-config', 'jiti']
         .concat(plugins.flatMap((plugin) => plugin.dependencies))
         .sort()
         .map((name) => {
-            // Specify eslint version if legacy react plugin enabled
-            if (name === 'eslint' && plugins.some((plugin) => plugin.name === 'reactLegacy')) {
-                return 'eslint@^9'
-            } else if (isCatalogPackage(name)) {
+            if (isCatalogPackage(name)) {
                 return `${name}@${workspaceCatalog[name]}`
             } else {
-                return name
+                return `${name}`
             }
         })
 
@@ -141,6 +145,12 @@ async function create() {
         const s = spinner()
 
         s.start('Installing dependencies...')
+
+        if (plugins.some((plugin) => plugin.name === 'reactLegacy')) {
+            await addDevDependency('eslint@^9')
+        } else {
+            await addDevDependency(`eslint@${workspaceCatalog['eslint']}`)
+        }
 
         await addDevDependency(dependencies)
 

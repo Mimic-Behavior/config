@@ -28,12 +28,10 @@
         "build": "tsdown"
     },
     "dependencies": {
+        "stylelint": "catalog:",
         "stylelint-config-recess-order": "catalog:",
         "stylelint-config-recommended": "catalog:",
         "stylelint-config-recommended-scss": "catalog:",
         "stylelint-order": "catalog:"
-    },
-    "peerDependencies": {
-        "stylelint": ">=17.0.0"
     }
 }

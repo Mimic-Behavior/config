@@ -1,13 +1,9 @@
-import {
-    type ConfigWithExtends,
-    type ConfigWithExtendsArray,
-    defineConfig,
-    globalIgnores,
-} from '@eslint/config-helpers'
+import { type ConfigWithExtendsArray, defineConfig, globalIgnores } from '@eslint/config-helpers'
 import js from '@eslint/js'
 import globals from 'globals'
 import typescript from 'typescript-eslint'
 
+import { json, next, oxlint, perfectionist, react, reactLegacy, sonarjs, vue, yaml } from './configs'
 import { plugin } from './plugin'
 
 type Options = {
@@ -24,6 +20,11 @@ type Options = {
          * @package https://www.npmjs.com/package/@next/eslint-plugin-next
          */
         next?: boolean
+        /**
+         * Enable Oxlint plugin
+         * @package https://www.npmjs.com/package/eslint-plugin-oxlint
+         */
+        oxlint?: boolean
         /**
          * Enable Perfectionist plugin
          * @package https://www.npmjs.com/package/eslint-plugin-perfectionist
@@ -101,191 +102,59 @@ async function createConfig(options: Options = {}) {
 
     // https://www.npmjs.com/package/eslint-plugin-react
     if (options.plugins?.reactLegacy) {
-        const [react, reactHooks] = await Promise.all([
-            interopDefault(import('eslint-plugin-react')),
-            interopDefault(import('eslint-plugin-react-hooks')),
-        ])
-        baseConfig.push(
-            react.configs.flat.recommended as ConfigWithExtends,
-            react.configs.flat['jsx-runtime'] as ConfigWithExtends,
-            reactHooks.configs.flat.recommended,
-            {
-                rules: {
-                    // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-sort-props.md
-                    'react/jsx-sort-props': 'off',
-                },
-            },
-        )
+        const config = await reactLegacy()
+        baseConfig.push(...config)
     }
 
     // https://www.npmjs.com/package/@eslint-react/eslint-plugin
     if (options.plugins?.react) {
-        const react = await interopDefault(import('@eslint-react/eslint-plugin'))
-
-        if (options.plugins.react) {
-            baseConfig.push(
-                react.configs['disable-conflict-eslint-plugin-react'],
-                react.configs['disable-conflict-eslint-plugin-react-hooks'],
-            )
-        }
-
-        const recommended = options.plugins.typescript ? 'recommended-typescript' : 'recommended'
-        baseConfig.push(react.configs[recommended])
+        const config = await react({ legacy: options.plugins.react, typescript: options.plugins.typescript })
+        baseConfig.push(...config)
     }
 
     // https://www.npmjs.com/package/@next/eslint-plugin-next
     if (options.plugins?.next) {
-        const plugin = await interopDefault(import('@next/eslint-plugin-next'))
-        baseConfig.push(plugin.configs['core-web-vitals'])
+        const config = await next()
+        baseConfig.push(...config)
     }
 
     // https://www.npmjs.com/package/eslint-plugin-vue
     if (options.plugins?.vue) {
-        const plugin = await interopDefault(import('eslint-plugin-vue'))
-        baseConfig.push(...plugin.configs['flat/recommended'], {
-            rules: {
-                // https://eslint.vuejs.org/rules/html-indent.html
-                'vue/html-indent': 'off',
-            },
-        })
-    }
-
-    // https://www.npmjs.com/package/vue-eslint-parser
-    if (options.plugins?.vue && options.plugins.typescript) {
-        const parser = await interopDefault(import('vue-eslint-parser'))
-        baseConfig.push({
-            files: ['**/*.vue'],
-            languageOptions: {
-                parser,
-                parserOptions: {
-                    parser: typescript.parser,
-                },
-            },
-        })
+        const config = await vue({ typescript: options.plugins.typescript ? { parser: typescript.parser } : undefined })
+        baseConfig.push(...config)
     }
 
     // https://www.npmjs.com/package/eslint-plugin-sonarjs
     if (options.plugins?.sonarjs) {
-        const plugin = await import('eslint-plugin-sonarjs')
-        baseConfig.push(plugin.configs.recommended)
+        const config = await sonarjs()
+        baseConfig.push(...config)
     }
 
     // https://www.npmjs.com/package/eslint-plugin-perfectionist
     if (options.plugins?.perfectionist) {
-        const plugin = await interopDefault(import('eslint-plugin-perfectionist'))
-        baseConfig.push(plugin.configs['recommended-alphabetical'], {
-            rules: {
-                // https://perfectionist.dev/rules/sort-jsx-props
-                'perfectionist/sort-jsx-props': [
-                    'error',
-                    {
-                        customGroups: [
-                            {
-                                elementNamePattern: '^on.+',
-                                groupName: 'callbacks',
-                            },
-                        ],
-                        groups: ['unknown', 'callbacks'],
-                    },
-                ],
-                // https://perfectionist.dev/rules/sort-objects
-                'perfectionist/sort-objects': ['error', { newlinesBetween: 0 }],
-            },
-        })
+        const config = await perfectionist()
+        baseConfig.push(...config)
     }
 
     // https://www.npmjs.com/package/eslint-plugin-jsonc
     if (options.plugins?.json) {
-        const plugin = await interopDefault(import('eslint-plugin-jsonc'))
-        baseConfig.push(...plugin.configs['recommended-with-jsonc'], {
-            rules: {
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/array-bracket-newline.html
-                'jsonc/array-bracket-newline': ['error', { multiline: true }],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/array-bracket-spacing.html
-                'jsonc/array-bracket-spacing': ['error', 'never'],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/array-element-newline.html
-                'jsonc/array-element-newline': ['error', { minItems: 2, multiline: true }],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/comma-dangle.html
-                'jsonc/comma-dangle': ['error', 'never'],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/comma-style.html
-                'jsonc/comma-style': ['error', 'last'],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/indent.html
-                'jsonc/indent': ['error', 4],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/key-spacing.html
-                'jsonc/key-spacing': ['error', { afterColon: true, beforeColon: false, mode: 'strict' }],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/object-curly-newline.html
-                'jsonc/object-curly-newline': ['error', { consistent: true }],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/object-curly-spacing.html
-                'jsonc/object-curly-spacing': ['error', 'always'],
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/object-property-newline.html
-                'jsonc/object-property-newline': 'error',
-                // https://ota-meshi.github.io/eslint-plugin-jsonc/rules/sort-keys.html
-                'jsonc/sort-keys': [
-                    'error',
-                    'asc',
-                    {
-                        allowLineSeparatedGroups: false,
-                        caseSensitive: true,
-                        minKeys: 2,
-                        natural: false,
-                    },
-                ],
-            },
-        })
+        const config = await json()
+        baseConfig.push(...config)
     }
 
     // https://www.npmjs.com/package/eslint-plugin-yml
     if (options.plugins?.yaml) {
-        const plugin = await interopDefault(import('eslint-plugin-yml'))
-        baseConfig.push(
-            ...plugin.configs.standard,
-            {
-                rules: {
-                    // https://ota-meshi.github.io/eslint-plugin-yml/rules/indent.html
-                    'yml/indent': ['error', 4, { indicatorValueIndent: 2 }],
-                    // https://ota-meshi.github.io/eslint-plugin-yml/rules/sort-keys.html
-                    'yml/sort-keys': [
-                        'error',
-                        'asc',
-                        {
-                            allowLineSeparatedGroups: false,
-                            caseSensitive: true,
-                            minKeys: 2,
-                            natural: false,
-                        },
-                    ],
-                    // https://ota-meshi.github.io/eslint-plugin-yml/rules/sort-sequence-values.html
-                    'yml/sort-sequence-values': [
-                        'error',
-                        {
-                            order: {
-                                caseSensitive: true,
-                                natural: false,
-                                type: 'asc',
-                            },
-                            pathPattern: '.*',
-                        },
-                    ],
-                },
-            },
-            {
-                files: ['**/workflows/**/*.yaml', '**/workflows/**/*.yml'],
-                rules: {
-                    // https://ota-meshi.github.io/eslint-plugin-yml/rules/sort-keys.html
-                    'yml/sort-keys': 'off',
-                    // https://ota-meshi.github.io/eslint-plugin-yml/rules/sort-sequence-values.html
-                    'yml/sort-sequence-values': 'off',
-                },
-            },
-        )
+        const config = await yaml()
+        baseConfig.push(...config)
+    }
+
+    // https://www.npmjs.com/package/eslint-plugin-oxlint
+    if (options.plugins?.oxlint) {
+        const config = await oxlint()
+        baseConfig.push(...config)
     }
 
     return defineConfig(baseConfig, options?.extends ?? [])
-}
-
-async function interopDefault<T>(promise: Promise<{ default: T }>): Promise<T> {
-    const module = await promise
-    return module.default
 }
 
 export { createConfig }

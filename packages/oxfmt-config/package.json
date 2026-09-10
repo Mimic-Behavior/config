@@ -27,7 +27,7 @@
     "scripts": {
         "build": "tsdown"
     },
-    "peerDependencies": {
-        "oxfmt": ">=0.40.0"
+    "dependencies": {
+        "oxfmt": "catalog:"
     }
 }
